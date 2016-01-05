@@ -1,4 +1,4 @@
-package main.java;
+package main.java.nodes;
 
 /**
  * Created by Gvozd on 05.01.2016.
@@ -7,8 +7,8 @@ public class MyBigNode extends MyNode{
     private MyNode left;
     private MyNode right;
 
-    public MyBigNode(long id, Object data) {
-        super(id, data);
+    public MyBigNode(int id, Object data) {
+        super(id, data, true);
     }
 
     public MyNode getLeft() {
