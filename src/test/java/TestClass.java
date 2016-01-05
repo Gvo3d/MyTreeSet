@@ -106,39 +106,35 @@ public class TestClass {
     public void TreeRemoving(){
         MyTreeSet tree = new MyTreeSet();
         tree.add(3);
+        tree.add(5);
+        tree.add(4);
         tree.add(2);
         tree.add(-3);
-        tree.add(8);
+        tree.add(7);
         tree.add(-2);
         tree.add(-1);
         tree.add(-4);
         tree.add(1);
         tree.add(-4);
-//        tree.add(4);
+        tree.add(8);
         tree.add(7);
-        tree.add(6);
+        tree.add(3);
 
         tree.currentSetRoot();
         System.out.println(tree.currentToString());
         tree.currentGetLeft();
         System.out.println(tree.currentToString());
-        tree.currentGetLeft();
-        System.out.println(tree.currentToString());
-        tree.currentGetRight();
-        System.out.println(tree.currentToString());
 
-        System.out.println(tree.contains(-1));
-        tree.remove(-1);
-        System.out.println(tree.contains(-1));
+
+        System.out.println(tree.contains(3));
+        tree.remove(3);
+        System.out.println(tree.contains(3));
 
         tree.currentSetRoot();
         System.out.println(tree.currentToString());
         tree.currentGetLeft();
         System.out.println(tree.currentToString());
-        tree.currentGetLeft();
-        System.out.println(tree.currentToString());
-        tree.currentGetRight();
-        System.out.println(tree.currentToString());
+
 
 //        tree.currentGetLeft();
 //        System.out.println(tree.currentToString());

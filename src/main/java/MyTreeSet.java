@@ -145,30 +145,83 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
                 if (deletableNode.getRight()!=null){
                     MyNode movingNode = deletableNode.getRight();
                     MyNode secondMovingNode = deletableNode.getLeft();
-                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+                    NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                    MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                    Boolean isRight = previousNodeCR.isRight();
                     MyBigNode otherMovingNode = (MyBigNode) searchFinalNode(false, movingNode);
-                    System.out.println(otherMovingNode.toString());
                     otherMovingNode.setLeft(secondMovingNode);
-                    previousNode.setLeft(movingNode);
+                    if (deletableNode.getCenter()!=null){
+                        MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                    removingnode.setLeft(deletableNode.getLeft());
+                    removingnode.setRight(deletableNode.getRight());
+                        if (isRight) {
+                            previousNode.setRight(removingnode);
+                        } else previousNode.setLeft(removingnode);
+                        idCounter.set(deletableId,null);
+                        return true;
+                    }
+                    if (isRight) {
+                        previousNode.setRight(otherMovingNode);
+                    } else previousNode.setLeft(otherMovingNode);
                     idCounter.set(deletableId,null);
                     return true;
                 } else {
                     MyNode secondMovingNode = deletableNode.getLeft();
-                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
-                    previousNode.setLeft(secondMovingNode);
+                    NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                    MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                    Boolean isRight = previousNodeCR.isRight();
+                    if (deletableNode.getCenter()!=null){
+                        MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                        removingnode.setLeft(deletableNode.getLeft());
+                        removingnode.setRight(deletableNode.getRight());
+                        if (isRight) {
+                            previousNode.setRight(removingnode);
+                        } else previousNode.setLeft(removingnode);
+                        idCounter.set(deletableId,null);
+                        return true;
+                    }
+                    if (isRight) {
+                        previousNode.setRight(secondMovingNode);
+                    } else previousNode.setLeft(secondMovingNode);
                     idCounter.set(deletableId,null);
                     return true;
                 }
             } else if (deletableNode.getRight()!=null) {
                 MyNode movingNode = deletableNode.getRight();
-                System.out.println(movingNode.toString());
-                MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
-                System.out.println(previousNode.toString());
-                previousNode.setLeft(movingNode);
+                NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                Boolean isRight = previousNodeCR.isRight();
+                if (deletableNode.getCenter()!=null){
+                    MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                    removingnode.setLeft(deletableNode.getLeft());
+                    removingnode.setRight(deletableNode.getRight());
+                    if (isRight) {
+                        previousNode.setRight(removingnode);
+                    } else previousNode.setLeft(removingnode);
+                    idCounter.set(deletableId,null);
+                    return true;
+                }
+                if (isRight) {
+                    previousNode.setRight(movingNode);
+                } else previousNode.setLeft(movingNode);
                 idCounter.set(deletableId,null);
                 return true;
             } else {
-                MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+                NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                Boolean isRight = previousNodeCR.isRight();
+                if (deletableNode.getCenter()!=null){
+                    MyBigNode removingnode = new MyBigNode(deletableNode.getCenter().getId(), deletableNode.getCenter().getData());
+                    if (deletableNode.getCenter()!=null) removingnode.setCenter(deletableNode.getCenter().getCenter());
+                    removingnode.setLeft(deletableNode.getLeft());
+                    removingnode.setRight(deletableNode.getRight());
+                    if (isRight) {
+                        previousNode.setRight(removingnode);
+                    } else previousNode.setLeft(removingnode);
+                    idCounter.set(deletableId,null);
+                    idCounter.set(removingnode.getId(), removingnode);
+                    return true;
+                }
                 previousNode.setLeft(null);
                 idCounter.set(deletableId,null);
                 return true;
@@ -178,32 +231,99 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
                 if (deletableNode.getLeft()!=null){
                     MyNode movingNode = deletableNode.getLeft();
                     MyNode secondMovingNode = deletableNode.getRight();
-                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                    NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                    MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                    Boolean isRight = previousNodeCR.isRight();
                     MyBigNode otherMovingNode = (MyBigNode) searchFinalNode(true, movingNode);
                     otherMovingNode.setRight(secondMovingNode);
-                    previousNode.setRight(movingNode);
+                    if (deletableNode.getCenter()!=null){
+                        MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                        removingnode.setLeft(deletableNode.getLeft());
+                        removingnode.setRight(deletableNode.getRight());
+                        if (isRight) {
+                            previousNode.setRight(removingnode);
+                        } else previousNode.setLeft(removingnode);
+                        idCounter.set(deletableId,null);
+                        return true;
+                    }
+                    if (isRight) {
+                        previousNode.setRight(otherMovingNode);
+                    } else previousNode.setLeft(otherMovingNode);
                     idCounter.set(deletableId,null);
                     return true;
                 } else {
                     MyNode secondMovingNode = deletableNode.getRight();
-                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
-                    previousNode.setRight(secondMovingNode);
+                    NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                    MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                    Boolean isRight = previousNodeCR.isRight();
+                    if (deletableNode.getCenter()!=null){
+                        MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                        removingnode.setLeft(deletableNode.getLeft());
+                        removingnode.setRight(deletableNode.getRight());
+                        if (isRight) {
+                            previousNode.setRight(removingnode);
+                        } else previousNode.setLeft(removingnode);
+                        idCounter.set(deletableId,null);
+                        return true;
+                    }
+                    if (isRight) {
+                        previousNode.setRight(secondMovingNode);
+                    } else previousNode.setLeft(secondMovingNode);
                     idCounter.set(deletableId,null);
                     return true;
                 }
             } else if (deletableNode.getLeft()!=null) {
                 MyNode movingNode = deletableNode.getLeft();
-                MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
-                previousNode.setRight(movingNode);
+                NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                Boolean isRight = previousNodeCR.isRight();
+                if (deletableNode.getCenter()!=null){
+                    MyBigNode removingnode = (MyBigNode) deletableNode.getCenter();
+                    removingnode.setLeft(deletableNode.getLeft());
+                    removingnode.setRight(deletableNode.getRight());
+                    if (isRight) {
+                        previousNode.setRight(removingnode);
+                    } else previousNode.setLeft(removingnode);
+                    idCounter.set(deletableId,null);
+                    return true;
+                }
+                if (isRight) {
+                    previousNode.setRight(movingNode);
+                } else previousNode.setLeft(movingNode);
                 idCounter.set(deletableId,null);
                 return true;
             } else {
-                MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                NodeComparingResult previousNodeCR = searchNodeByLink(deletableNode);
+                MyBigNode previousNode = (MyBigNode) previousNodeCR.getPrevious();
+                Boolean isRight = previousNodeCR.isRight();
+                if (deletableNode.getCenter()!=null){
+                    MyBigNode removingnode = new MyBigNode(deletableNode.getCenter().getId(), deletableNode.getCenter().getData());
+                    if (deletableNode.getCenter()!=null) removingnode.setCenter(deletableNode.getCenter().getCenter());
+                    removingnode.setLeft(deletableNode.getLeft());
+                    removingnode.setRight(deletableNode.getRight());
+                    if (isRight) {
+                        previousNode.setRight(removingnode);
+                    } else previousNode.setLeft(removingnode);
+                    idCounter.set(deletableId,null);
+                    idCounter.set(removingnode.getId(), removingnode);
+                    return true;
+                }
                 previousNode.setRight(null);
                 idCounter.set(deletableId,null);
                 return true;
             }
         } else if (root.compareTo(o)==0) {
+            if (root.getCenter()!=null) {
+                deletableNode = (MyBigNode) root;
+                MyBigNode removingnode = new MyBigNode(deletableNode.getCenter().getId(), deletableNode.getCenter().getData());
+                if (deletableNode.getCenter()!=null) removingnode.setCenter(deletableNode.getCenter().getCenter());
+                removingnode.setLeft(deletableNode.getLeft());
+                removingnode.setRight(deletableNode.getRight());
+                root=removingnode;
+                idCounter.set(deletableId,null);
+                return true;
+
+            }
             MyBigNode rootNode = (MyBigNode) root;
             MyBigNode leftOvers = (MyBigNode) rootNode.getLeft();
             MyBigNode rightNewRoot = (MyBigNode) ((MyBigNode) root).getRight();
@@ -218,35 +338,32 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
     private NodeComparingResult searchNodeByLink(MyNode searchable){
         MyNode tempNode = currentNode;
         currentNode=root;
-        MyNode resultNode = searchNodeByLinkBody(searchable);
+        NodeComparingResult newsearchable = new NodeComparingResult(false, searchable);
+        NodeComparingResult result= searchNodeByLinkBody(newsearchable);
         currentNode=tempNode;
-        NodeComparingResult result = new NodeComparingResult(flag, resultNode);
         return result;
     }
 
-    private MyNode searchNodeByLinkBody(MyNode searchable){
-        if (isRight) {
+    private NodeComparingResult searchNodeByLinkBody(NodeComparingResult searchable){
             MyBigNode tempnode = (MyBigNode)currentNode;
-            if (tempnode.getRight()==searchable) return tempnode;
-        }
-        if (!isRight) {
-            MyBigNode tempnode = (MyBigNode)currentNode;
-            if (tempnode.getLeft()==searchable) return tempnode;
-        }
-        if (currentNode.compareTo(searchable)>0){
+            MyBigNode searchableNode = (MyBigNode) searchable.getPrevious();
+
+            if (tempnode.getRight()==searchableNode) return new NodeComparingResult(true, tempnode);
+            if (tempnode.getLeft()==searchableNode) return new NodeComparingResult(false, tempnode);
+
+        if (currentNode.compareTo(searchableNode)>0){
             if (currentHasLeft()){
                 currentMoveLeft();
-                return searchNodeByLinkBody(isRight, searchable);
-            } else return new MyBigNode (-1, null);
+                return searchNodeByLinkBody(new NodeComparingResult(true, searchableNode));
+            } else return new NodeComparingResult(false, tempnode);
 
-        } else if (currentNode.compareTo(searchable)<0) {
+        } else if (currentNode.compareTo(searchableNode)<0) {
             if (currentHasRight()){
                 currentGetRight();
-                return searchNodeByLinkBody(isRight, searchable);
-            } else return new MyBigNode (-1, null);
+                return searchNodeByLinkBody(new NodeComparingResult(true, searchableNode));
+            } else return new NodeComparingResult(false, tempnode);
         }
-        return new MyBigNode (-1, null);
-
+        return new NodeComparingResult(true, new MyBigNode(-1, null));
     }
 
     private MyNode searchFinalNode (boolean isRight, MyNode searchable){
