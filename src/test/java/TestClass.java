@@ -102,5 +102,40 @@ public class TestClass {
         System.out.println("Contains methods tested successfully.");
     }
 
+    @Test
+    public void TreeRemoving(){
+        MyTreeSet tree = new MyTreeSet();
+        tree.add(3);
+        tree.add(2);
+        tree.add(-3);
+        tree.add(8);
+        tree.add(-2);
+        tree.add(-1);
+        tree.add(-4);
+        tree.add(1);
+        tree.add(-4);
+//        tree.add(4);
+        tree.add(7);
+        tree.add(6);
+
+        tree.currentSetRoot();
+        System.out.println(tree.currentToString());
+        tree.currentGetRight();
+        System.out.println(tree.currentToString());
+
+        System.out.println(tree.contains(6));
+        tree.remove(8);
+        System.out.println(tree.contains(6));
+
+        tree.currentSetRoot();
+        System.out.println(tree.currentToString());
+        tree.currentGetRight();
+        System.out.println(tree.currentToString());
+        tree.currentGetLeft();
+        System.out.println(tree.currentToString());
+
+//        tree.currentGetLeft();
+//        System.out.println(tree.currentToString());
+    }
 
 }

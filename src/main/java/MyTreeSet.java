@@ -132,13 +132,131 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
     public boolean remove(Object o) {
         MyNode tempNode = currentNode;
         currentNode=root;
-        MyNode result = nodeDataComparator(o);
+        MyNode deletable = nodeDataComparator(o);
         currentNode=tempNode;
+        if (deletable.getId()==-1) return false;
 
-        if (result.getId()==-1) return false;
-        return true;
+        int deletableId=deletable.getId();
+        MyBigNode deletableNode = (MyBigNode) deletable;
+
+//        if (root.compareTo(o)<0) {
+//            if (deletableNode.getLeft()!=null) {
+//                if (deletableNode.getRight()!=null){
+//                    MyNode movingNode = deletableNode.getRight();
+//                    MyNode secondMovingNode = deletableNode.getLeft();
+//                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+//                    MyBigNode otherMovingNode = (MyBigNode) searchFinalNode(false, movingNode);
+//                    otherMovingNode.setLeft(secondMovingNode);
+//                    previousNode.setLeft(movingNode);
+//                    idCounter.set(deletableId,null);
+//                    return true;
+//                } else {
+//                    MyNode secondMovingNode = deletableNode.getLeft();
+//                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+//                    previousNode.setLeft(secondMovingNode);
+//                    idCounter.set(deletableId,null);
+//                    return true;
+//                }
+//            } else if (deletableNode.getRight()!=null) {
+//                MyNode movingNode = deletableNode.getRight();
+//                MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+//                previousNode.setLeft(movingNode);
+//                idCounter.set(deletableId,null);
+//                return true;
+//            } else {
+//                MyBigNode previousNode = (MyBigNode) searchNodeByLink(false, deletableNode);
+//                previousNode.setLeft(null);
+//                idCounter.set(deletableId,null);
+//                return true;
+//            }
+//        } else
+            if (root.compareTo(o)>0) {
+            if (deletableNode.getRight()!=null) {
+                if (deletableNode.getLeft()!=null){
+                    MyNode movingNode = deletableNode.getLeft();
+                    MyNode secondMovingNode = deletableNode.getRight();
+                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                    MyBigNode otherMovingNode = (MyBigNode) searchFinalNode(true, movingNode);
+                    otherMovingNode.setRight(secondMovingNode);
+                    previousNode.setRight(movingNode);
+                    idCounter.set(deletableId,null);
+                    return true;
+                } else {
+                    MyNode secondMovingNode = deletableNode.getRight();
+                    MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                    previousNode.setRight(secondMovingNode);
+                    idCounter.set(deletableId,null);
+                    return true;
+                }
+            } else if (deletableNode.getLeft()!=null) {
+                MyNode movingNode = deletableNode.getLeft();
+                MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                previousNode.setRight(movingNode);
+                idCounter.set(deletableId,null);
+                return true;
+            } else {
+                MyBigNode previousNode = (MyBigNode) searchNodeByLink(true, deletableNode);
+                previousNode.setRight(null);
+                idCounter.set(deletableId,null);
+                return true;
+            }
+        } else if (root.compareTo(o)==0) {
+            MyBigNode rootNode = (MyBigNode) root;
+            MyBigNode leftOvers = (MyBigNode) rootNode.getLeft();
+            MyBigNode rightNewRoot = (MyBigNode) ((MyBigNode) root).getRight();
+            MyBigNode otherMovingNode = (MyBigNode) searchFinalNode(false, rightNewRoot);
+            otherMovingNode.setLeft(leftOvers);
+            root=rightNewRoot;
+            return true;
+        }
+        return false;
+    }
+
+    private MyNode searchNodeByLink(boolean isRight, MyNode searchable){
+        MyNode tempNode = currentNode;
+        currentNode=root;
+        MyNode result = searchNodeByLinkBody(isRight, searchable);
+        currentNode=tempNode;
+        return result;
+    }
+
+    private MyNode searchNodeByLinkBody(boolean isRight, MyNode searchable){
+        if (isRight) {
+            MyBigNode tempnode = (MyBigNode)currentNode;
+            if (tempnode.getRight()==searchable) return tempnode;
+        }
+        if (!isRight) {
+            MyBigNode tempnode = (MyBigNode)currentNode;
+            if (tempnode.getLeft()==searchable) return tempnode;
+        }
+        if (currentNode.compareTo(searchable)>0){
+            if (currentHasLeft()){
+                currentMoveLeft();
+                return searchNodeByLinkBody(isRight, searchable);
+            } else return new MyBigNode (-1, null);
+
+        } else if (currentNode.compareTo(searchable)<0) {
+            if (currentHasRight()){
+                currentGetRight();
+                return searchNodeByLinkBody(isRight, searchable);
+            } else return new MyBigNode (-1, null);
+        }
+        return new MyBigNode (-1, null);
 
     }
+
+    private MyNode searchFinalNode (boolean isRight, MyNode searchable){
+        MyBigNode castedSearchable = (MyBigNode) searchable;
+        if (isRight) {
+            if (castedSearchable.getRight()!=null) {
+                return searchFinalNode(isRight, castedSearchable.getRight());
+            } else return castedSearchable;
+        } else if (castedSearchable.getLeft()!= null) {
+            return searchFinalNode(isRight, castedSearchable.getRight());
+        }
+        return new MyBigNode (-1, null);
+    }
+
 
     public boolean removeAll(Collection c) {
         return false;
