@@ -120,18 +120,24 @@ public class TestClass {
 
         tree.currentSetRoot();
         System.out.println(tree.currentToString());
+        tree.currentGetLeft();
+        System.out.println(tree.currentToString());
+        tree.currentGetLeft();
+        System.out.println(tree.currentToString());
         tree.currentGetRight();
         System.out.println(tree.currentToString());
 
-        System.out.println(tree.contains(6));
-        tree.remove(8);
-        System.out.println(tree.contains(6));
+        System.out.println(tree.contains(-1));
+        tree.remove(-1);
+        System.out.println(tree.contains(-1));
 
         tree.currentSetRoot();
         System.out.println(tree.currentToString());
-        tree.currentGetRight();
+        tree.currentGetLeft();
         System.out.println(tree.currentToString());
         tree.currentGetLeft();
+        System.out.println(tree.currentToString());
+        tree.currentGetRight();
         System.out.println(tree.currentToString());
 
 //        tree.currentGetLeft();
