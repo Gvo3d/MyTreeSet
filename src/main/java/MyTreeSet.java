@@ -222,7 +222,9 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
                     idCounter.set(removingnode.getId(), removingnode);
                     return true;
                 }
-                previousNode.setLeft(null);
+                if (isRight) {
+                    previousNode.setRight(null);
+                } else  previousNode.setLeft(null);
                 idCounter.set(deletableId,null);
                 return true;
             }
@@ -308,7 +310,9 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
                     idCounter.set(removingnode.getId(), removingnode);
                     return true;
                 }
-                previousNode.setRight(null);
+                if (isRight) {
+                    previousNode.setRight(null);
+                } else  previousNode.setLeft(null);
                 idCounter.set(deletableId,null);
                 return true;
             }
@@ -377,10 +381,28 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
         } else return castedSearchable;
     }
 
-
     public boolean removeAll(Collection c) {
-        return false;
-    }
+            boolean resultIsGood=true;
+            boolean temporary;
+            for (Object newObject:c){
+                temporary = remove(newObject);
+                if (temporary==false) resultIsGood=false;
+            }
+            return resultIsGood;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public boolean retainAll(Collection c) {
         return false;
@@ -396,6 +418,13 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
     public Iterator iterator() {
         return null;
     }
+
+
+
+
+
+
+
 
     @Override
     public String toString() {

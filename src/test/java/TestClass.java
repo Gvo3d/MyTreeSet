@@ -120,24 +120,15 @@ public class TestClass {
         tree.add(7);
         tree.add(3);
 
-        tree.currentSetRoot();
-        System.out.println(tree.currentToString());
-        tree.currentGetLeft();
-        System.out.println(tree.currentToString());
+        boolean beforeContains = tree.contains(4);
+        tree.remove(4);
+        boolean afterContains = tree.contains(4);
 
 
-        System.out.println(tree.contains(3));
-        tree.remove(3);
-        System.out.println(tree.contains(3));
+        Assert.assertEquals("Asserting deletable containable item", true, beforeContains);
+        Assert.assertEquals("Asserting no deletable containable item", false, afterContains);
 
-        tree.currentSetRoot();
-        System.out.println(tree.currentToString());
-        tree.currentGetLeft();
-        System.out.println(tree.currentToString());
-
-
-//        tree.currentGetLeft();
-//        System.out.println(tree.currentToString());
+        System.out.println("Contains methods are passed.");
     }
 
 }
