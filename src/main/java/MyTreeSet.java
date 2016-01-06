@@ -23,7 +23,11 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
     }
 
     public int size() {
-        return idCounter.size();
+        int tempSize=0;
+        for (int i=0; i<idCounter.size(); i++){
+            if (idCounter.get(i)!=null) tempSize++;
+        }
+        return tempSize;
     }
 
     public boolean isEmpty() {
@@ -389,42 +393,72 @@ public class MyTreeSet extends AbstractSet implements TreeSetCurrentMethods {
                 if (temporary==false) resultIsGood=false;
             }
             return resultIsGood;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public boolean retainAll(Collection c) {
-        return false;
     }
 
+    public boolean retainAll(Collection c) {
+        Object tempObj;
+        boolean forDeleting=true;
+        int per=0;
+        for (Object obj:toArray()){
+            MyNode tempNode = (MyNode) obj;
+            tempObj=((MyNode) obj).getData();
 
+            for (Object cData:c){
+                if (tempObj.equals(cData)) {
+                    forDeleting = false;
+                    per++;
+                }
+            }
+            if (forDeleting){
+                remove(tempObj);
+                forDeleting=false;
+            }
+        }
+        return (per==c.size());
+    }
 
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size()];
+        int counter=0;
+        for (int i=0; i<idCounter.size(); i++){
+            if (idCounter.get(i)!=null) {
+                arr[counter]=idCounter.get(i);
+                counter++;
+            }
+        }
+        return arr;
     }
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new DataIterator();
     }
 
+    private class DataIterator implements Iterator {
+        private MyNode iteratorCurrentNode;
+        private Object[] iterableTree = toArray();
+        private int itSize;
+        private int counter;
 
+        public DataIterator() {
+            itSize=iterableTree.length;
+        }
 
+        @Override
+        public boolean hasNext() {
+            if (counter<itSize) {
+                return true;
+            } else return false;
+        }
 
-
-
-
+        @Override
+        public Object next() {
+            iteratorCurrentNode = (MyNode) iterableTree[counter];
+            Object temp = iteratorCurrentNode.getData();
+            counter++;
+           return temp;
+        }
+    }
 
     @Override
     public String toString() {

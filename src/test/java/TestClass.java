@@ -58,7 +58,7 @@ public class TestClass {
         tree.currentGetCenter();
         Assert.assertEquals("Asserting element", 5, tree.currentGetData());
         tree.currentSetRoot();
-        System.out.println("RootNode: "+tree.currentToString());
+        tree.currentToString();
         Assert.assertEquals("Asserting first element", 3, tree.currentGetData());
         tree.currentGetLeft();
         tree.currentGetLeft();
@@ -118,17 +118,45 @@ public class TestClass {
         tree.add(-4);
         tree.add(8);
         tree.add(7);
-        tree.add(3);
+
+
+        ArrayList newArray = new ArrayList();
+        newArray.add(8);
+        newArray.add(-2);
+        newArray.add(-4);
+        newArray.add(3);
 
         boolean beforeContains = tree.contains(4);
         tree.remove(4);
         boolean afterContains = tree.contains(4);
+        tree.removeAll(newArray);
+
 
 
         Assert.assertEquals("Asserting deletable containable item", true, beforeContains);
         Assert.assertEquals("Asserting no deletable containable item", false, afterContains);
 
-        System.out.println("Contains methods are passed.");
+        System.out.println("Remove methods are passed.");
+    }
+
+    @Test
+    public void TreeIterating(){
+        MyTreeSet tree = new MyTreeSet();
+        tree.add(3);
+        ArrayList newArray = new ArrayList();
+        newArray.add(5);
+        newArray.add(2);
+        newArray.add(1);
+        newArray.add(2);
+        tree.addAll(newArray);
+        int counter=0;
+
+        for (Object obj:tree){
+            counter=counter+(int)obj;
+        }
+
+        Assert.assertEquals("Asserting iterable forEach", 13, counter);
+        System.out.println("Iteration tested successfully.");
     }
 
 }
