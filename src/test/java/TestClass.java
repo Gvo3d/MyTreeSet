@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 /**
- * Created by Gvozd on 05.01.2016.
+ * Created by Yakimov Denis on 05.01.2016.
  */
 public class TestClass {
 
